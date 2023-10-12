@@ -1,0 +1,15 @@
+.productPage input{
+    @apply border w-full p-2
+}
+.productPage textarea{
+    @apply border w-full p-2
+}
+
+.productPage select{
+    @apply border w-full p-2
+
+}
+
+.productPage h3{
+    @apply font-bold 
+}
