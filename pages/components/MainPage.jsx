@@ -11,17 +11,21 @@ const MainPage = () => {
     getData();
   }, []);
 
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
 
   const getData = async () => {
     const querySnapshot = await getDocs(collection(db, "products"));
     if (!querySnapshot.empty) {
-      setProducts(querySnapshot);
+      const temparr = [];
+      querySnapshot.forEach((doc) => {
+        temparr.push(doc.data());
+      });
+      setProducts(temparr);
     }
   };
 
-  const handleClick = () => {
-    set.setProduct("new");
+  const handlePageState = (p) => {
+    set.setProduct(p);
     set.setMainPageState(false);
     set.setProductPageState(true);
   };
@@ -32,8 +36,8 @@ const MainPage = () => {
         <p>ADMIN PANEL</p>
       </div>
       <button
-        className="m-8 px-4 py-2 text-white text-2xl font-bold bg-neutral-950 absolute bottom-0 right-0 rounded-md"
-        onClick={handleClick}
+        className="m-8 px-4 py-2 text-white text-2xl font-bold bg-neutral-950 fixed bottom-0 right-0 rounded-md"
+        onClick={() => handlePageState("new")}
       >
         +
       </button>
@@ -42,11 +46,18 @@ const MainPage = () => {
         <div className="p-8 w-3/4 space-y-4">
           <p className="text-4xl font-bold">Products</p>
           <hr className="border-black" />
-          <div className="flex flex-col">
-            {products == null
+          <div className="flex flex-col gap-1">
+            {products.length == 0
               ? "No Products Available"
               : products.map((p) => {
-                  return <div>{p.title}</div>;
+                  return (
+                    <div
+                      className="border p-2"
+                      onClick={() => handlePageState(p)}
+                    >
+                      {p.title}
+                    </div>
+                  );
                 })}
           </div>
         </div>

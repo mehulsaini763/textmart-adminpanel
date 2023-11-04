@@ -11,5 +11,5 @@
 }
 
 .productPage h3{
-    @apply font-bold 
+    @apply font-bold w-1/3
 }
